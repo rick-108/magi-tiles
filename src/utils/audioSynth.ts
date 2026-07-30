@@ -1,3 +1,5 @@
+import { SoundStyle, AccuracyRating } from '../types';
+
 // Web Audio API Acoustic Piano Synthesizer Engine
 // Royalty-Free, 0 Latency, High Fidelity Polyphonic Piano Engine
 
@@ -81,8 +83,8 @@ class AudioEngine {
   public playNote(
     pitch: string | number,
     durationSec: number = 0.5,
-    accuracy: 'perfect' | 'great' | 'good' = 'perfect',
-    soundStyle: 'piano' | 'synth' | 'wooden' = 'piano'
+    accuracy: AccuracyRating = 'perfect',
+    soundStyle: SoundStyle = 'piano'
   ): void {
     if (this.isMuted) return;
     this.initAudioContext();

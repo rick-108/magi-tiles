@@ -18,8 +18,8 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
   song,
   lang,
   keyBindings,
-  tileSkin = 'classic',
-  soundStyle = 'piano',
+  tileSkin = 'classic' as TileSkin,
+  soundStyle = 'piano' as SoundStyle,
   onFinishGame,
   onBackToMenu,
 }) => {
@@ -299,7 +299,7 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
     setCombo(comboRef.current);
 
     // Update dynamic audio layering intensity based on score & combo!
-    audioEngine.setLayeringIntensity(comboRef.current, scoreRef.current, song.isEndless, isFever);
+    audioEngine.setLayeringIntensity(comboRef.current, scoreRef.current, song.isEndless, false);
 
     // High Energy Particle Explosion FX
     createParticles(tapX, Math.min(targetTile.y + targetTile.height, hitLineY), ratingColor, targetTile.isGold ? 32 : 22);
@@ -813,7 +813,7 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
                 audioEngine.stopDynamicLayering();
               } else if (hasGameStartedRef.current) {
                 audioEngine.startDynamicLayering(song.bpm || 128);
-                audioEngine.setLayeringIntensity(comboRef.current, scoreRef.current, song.isEndless, isFever);
+                audioEngine.setLayeringIntensity(comboRef.current, scoreRef.current, song.isEndless, false);
               }
               return nextState;
             });
@@ -882,7 +882,7 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
                   isPausedRef.current = false;
                   if (hasGameStartedRef.current) {
                     audioEngine.startDynamicLayering(song.bpm || 128);
-                    audioEngine.setLayeringIntensity(comboRef.current, scoreRef.current, song.isEndless, isFever);
+                    audioEngine.setLayeringIntensity(comboRef.current, scoreRef.current, song.isEndless, false);
                   }
                 }}
                 className="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm rounded-xl transition-colors flex items-center justify-center gap-2"
