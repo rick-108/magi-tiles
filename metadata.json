@@ -1,0 +1,6 @@
+{
+  "name": "Magic Tiles Piano",
+  "description": "An interactive mobile and desktop piano tile rhythm game with classical compositions, royalty-free audio synthesizer, and CrazyGames compliance.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
