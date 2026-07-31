@@ -2,6 +2,7 @@ import React from 'react';
 import { Song, GameState, Language, UserStats, TileSkin, SoundStyle } from './types';
 import { SONGS } from './data/songs';
 import { Navbar } from './components/Navbar';
+import { HomeHero } from './components/HomeHero';
 import { SongSelector } from './components/SongSelector';
 import { GameCanvas } from './components/GameCanvas';
 import { GameOverModal } from './components/GameOverModal';
@@ -15,6 +16,7 @@ const SOUND_STORAGE_KEY = 'magic_tiles_piano_sound_v1';
 export default function App() {
   const [lang, setLang] = React.useState<Language>('ar');
   const [gameState, setGameState] = React.useState<GameState>('menu');
+  const [menuView, setMenuView] = React.useState<'home' | 'songs'>('home');
   const [selectedSong, setSelectedSong] = React.useState<Song>(SONGS[0]);
 
   // Tile Skin & Sound Style
@@ -97,10 +99,14 @@ export default function App() {
     setGameState('playing');
   };
 
+  const handleStartEndless = () => {
+    const endlessSong = SONGS.find((s) => s.isEndless) || SONGS[0];
+    handleSelectSong(endlessSong);
+  };
+
   const handleQuickStart = () => {
-    setSelectedSong(SONGS[0]); // Für Elise
-    setGameSessionId((id) => id + 1);
-    setGameState('playing');
+    const endlessSong = SONGS.find((s) => s.isEndless) || SONGS[0];
+    handleSelectSong(endlessSong);
   };
 
   const handleFinishGame = (finalScore: number, maxCombo: number, completed: boolean) => {
@@ -169,12 +175,22 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 flex items-center justify-center p-2 sm:p-4">
-        {gameState === 'menu' && (
+        {gameState === 'menu' && menuView === 'home' && (
+          <HomeHero
+            lang={lang}
+            stats={stats}
+            onStartEndless={handleStartEndless}
+            onOpenSongList={() => setMenuView('songs')}
+          />
+        )}
+
+        {gameState === 'menu' && menuView === 'songs' && (
           <SongSelector
             lang={lang}
             stats={stats}
             onSelectSong={handleSelectSong}
-            onQuickStart={handleQuickStart}
+            onQuickStart={handleStartEndless}
+            onBackToHome={() => setMenuView('home')}
           />
         )}
 
